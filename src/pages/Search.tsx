@@ -87,7 +87,7 @@ const Search = () => {
                   <SelectValue placeholder="Genre" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Genres</SelectItem>
+                  <SelectItem value="all_genres">All Genres</SelectItem>
                   {genres.map((genre) => (
                     <SelectItem key={genre} value={genre}>
                       {genre}
@@ -101,7 +101,7 @@ const Search = () => {
                   <SelectValue placeholder="Year" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Years</SelectItem>
+                  <SelectItem value="all_years">All Years</SelectItem>
                   {years.map((year) => (
                     <SelectItem key={year} value={year.toString()}>
                       {year}
