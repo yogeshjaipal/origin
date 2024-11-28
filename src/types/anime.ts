@@ -16,6 +16,10 @@ export interface AnimeMedia {
   genres?: string[];
   coverImage: AnimeCoverImage;
   bannerImage: string | null;
+  season?: string;
+  seasonYear?: number;
+  status?: string;
+  duration?: number;
 }
 
 export interface AnimePageResponse {
