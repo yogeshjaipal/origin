@@ -51,7 +51,7 @@ const Search = () => {
 
   console.log("Search page rendered with:", { searchTerm, selectedGenre, selectedYear });
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useQuery<AnimePageResponse>({
     queryKey: ['search-anime', searchTerm, selectedGenre, selectedYear],
     queryFn: async () => {
       console.log("Fetching anime with filters:", { searchTerm, selectedGenre, selectedYear });
