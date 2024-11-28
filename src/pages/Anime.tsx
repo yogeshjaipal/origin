@@ -50,7 +50,7 @@ const Anime = () => {
     );
   }
 
-  const anime = data?.Media;
+  const anime = data?.data?.Media;
 
   if (!anime) {
     return (
@@ -93,7 +93,7 @@ const Anime = () => {
                    dangerouslySetInnerHTML={{ __html: anime.description || '' }} />
                 
                 <div className="flex flex-wrap gap-2">
-                  {anime.genres.map((genre: string) => (
+                  {anime.genres?.map((genre: string) => (
                     <span key={genre} className="px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-sm">
                       {genre}
                     </span>

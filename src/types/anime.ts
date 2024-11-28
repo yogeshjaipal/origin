@@ -10,20 +10,24 @@ export interface AnimeCoverImage {
 export interface AnimeMedia {
   id: number;
   title: AnimeTitle;
-  description: string;
+  description?: string;
   averageScore: number;
-  episodes: number;
-  genres: string[];
+  episodes?: number;
+  genres?: string[];
   coverImage: AnimeCoverImage;
   bannerImage: string | null;
 }
 
 export interface AnimePageResponse {
-  Page: {
-    media: AnimeMedia[];
+  data: {
+    Page: {
+      media: AnimeMedia[];
+    };
   };
 }
 
 export interface SingleAnimeResponse {
-  Media: AnimeMedia;
+  data: {
+    Media: AnimeMedia;
+  };
 }

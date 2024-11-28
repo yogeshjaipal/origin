@@ -84,9 +84,9 @@ const Index = () => {
                 ease: "easeInOut"
               }}
             >
-              {data?.Page.media[0]?.bannerImage && (
+              {data?.data?.Page.media[0]?.bannerImage && (
                 <img 
-                  src={data.Page.media[0].bannerImage}
+                  src={data.data.Page.media[0].bannerImage}
                   alt="Featured Anime"
                   className="rounded-lg shadow-2xl shadow-orange-500/20"
                 />
@@ -104,7 +104,7 @@ const Index = () => {
             <div className="text-center text-gray-400">Loading...</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {data?.Page.media.map((anime: AnimeMedia) => (
+              {data?.data?.Page.media.map((anime: AnimeMedia) => (
                 <Link key={anime.id} to={`/anime/${anime.id}`}>
                   <motion.div
                     className="relative overflow-hidden rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
