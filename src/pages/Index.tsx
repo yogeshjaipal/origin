@@ -4,13 +4,40 @@ import { Play, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { request, gql } from 'graphql-request';
+
+const TRENDING_ANIME_QUERY = gql`
+  query {
+    Page(page: 1, perPage: 3) {
+      media(sort: TRENDING_DESC, type: ANIME) {
+        id
+        title {
+          english
+          romaji
+        }
+        coverImage {
+          extraLarge
+        }
+        bannerImage
+        averageScore
+      }
+    }
+  }
+`;
 
 const Index = () => {
-  const animeList = [
-    { id: 1, title: "Demon Slayer", rating: "9.2", image: "photo-1518770660439-4636190af475" },
-    { id: 2, title: "One Piece", rating: "9.5", image: "photo-1487058792275-0ad4aaf24ca7" },
-    { id: 3, title: "Attack on Titan", rating: "9.8", image: "photo-1485827404703-89b55fcc595e" },
-  ];
+  console.log("Rendering Index page");
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['trending-anime'],
+    queryFn: async () => {
+      console.log("Fetching trending anime data");
+      const response = await request('https://graphql.anilist.co', TRENDING_ANIME_QUERY);
+      console.log("Received anime data:", response);
+      return response.Page.media;
+    }
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black texture-bg">
@@ -56,11 +83,13 @@ const Index = () => {
                 ease: "easeInOut"
               }}
             >
-              <img 
-                src="https://source.unsplash.com/random/800x600/?anime"
-                alt="Anime Hero"
-                className="rounded-lg shadow-2xl shadow-orange-500/20"
-              />
+              {data && data[0]?.bannerImage && (
+                <img 
+                  src={data[0].bannerImage}
+                  alt="Featured Anime"
+                  className="rounded-lg shadow-2xl shadow-orange-500/20"
+                />
+              )}
             </motion.div>
           </div>
         </div>
@@ -70,29 +99,35 @@ const Index = () => {
       <section className="px-6 py-20">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-white">Trending Now</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {animeList.map((anime) => (
-              <Link key={anime.id} to={`/anime/${anime.id}`}>
-                <motion.div
-                  className="relative overflow-hidden rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
-                  whileHover={{ y: -10 }}
-                >
-                  <img
-                    src={`https://source.unsplash.com/${anime.image}`}
-                    alt={anime.title}
-                    className="w-full aspect-video object-cover"
-                  />
-                  <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <h3 className="text-xl font-bold text-white">{anime.title}</h3>
-                    <div className="flex items-center gap-2 text-orange-500">
-                      <Star className="w-4 h-4 fill-current" />
-                      <span>{anime.rating}</span>
+          {isLoading ? (
+            <div className="text-center text-gray-400">Loading...</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {data?.map((anime: any) => (
+                <Link key={anime.id} to={`/anime/${anime.id}`}>
+                  <motion.div
+                    className="relative overflow-hidden rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
+                    whileHover={{ y: -10 }}
+                  >
+                    <img
+                      src={anime.coverImage.extraLarge}
+                      alt={anime.title.english || anime.title.romaji}
+                      className="w-full aspect-video object-cover"
+                    />
+                    <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">
+                      <h3 className="text-xl font-bold text-white">
+                        {anime.title.english || anime.title.romaji}
+                      </h3>
+                      <div className="flex items-center gap-2 text-orange-500">
+                        <Star className="w-4 h-4 fill-current" />
+                        <span>{(anime.averageScore / 10).toFixed(1)}</span>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
+                  </motion.div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>
