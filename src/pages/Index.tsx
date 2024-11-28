@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { request, gql } from 'graphql-request';
+import { AnimePageResponse, AnimeMedia } from "@/types/anime";
 
 const TRENDING_ANIME_QUERY = gql`
   query {
@@ -29,13 +30,13 @@ const TRENDING_ANIME_QUERY = gql`
 const Index = () => {
   console.log("Rendering Index page");
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useQuery<AnimePageResponse>({
     queryKey: ['trending-anime'],
     queryFn: async () => {
       console.log("Fetching trending anime data");
       const response = await request('https://graphql.anilist.co', TRENDING_ANIME_QUERY);
       console.log("Received anime data:", response);
-      return response.Page.media;
+      return response;
     }
   });
 
@@ -83,9 +84,9 @@ const Index = () => {
                 ease: "easeInOut"
               }}
             >
-              {data && data[0]?.bannerImage && (
+              {data?.Page.media[0]?.bannerImage && (
                 <img 
-                  src={data[0].bannerImage}
+                  src={data.Page.media[0].bannerImage}
                   alt="Featured Anime"
                   className="rounded-lg shadow-2xl shadow-orange-500/20"
                 />
@@ -103,7 +104,7 @@ const Index = () => {
             <div className="text-center text-gray-400">Loading...</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {data?.map((anime: any) => (
+              {data?.Page.media.map((anime: AnimeMedia) => (
                 <Link key={anime.id} to={`/anime/${anime.id}`}>
                   <motion.div
                     className="relative overflow-hidden rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
@@ -111,7 +112,7 @@ const Index = () => {
                   >
                     <img
                       src={anime.coverImage.extraLarge}
-                      alt={anime.title.english || anime.title.romaji}
+                      alt={anime.title.english || anime.title.romaji || 'Anime'}
                       className="w-full aspect-video object-cover"
                     />
                     <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">

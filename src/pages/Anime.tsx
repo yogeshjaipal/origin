@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { request, gql } from 'graphql-request';
+import { SingleAnimeResponse } from "@/types/anime";
 
 const ANIME_QUERY = gql`
   query ($id: Int) {
@@ -30,13 +31,13 @@ const Anime = () => {
   const { id } = useParams();
   console.log("Rendering Anime page for ID:", id);
 
-  const { data: anime, isLoading } = useQuery({
+  const { data, isLoading } = useQuery<SingleAnimeResponse>({
     queryKey: ['anime', id],
     queryFn: async () => {
       console.log("Fetching anime data for ID:", id);
       const response = await request('https://graphql.anilist.co', ANIME_QUERY, { id: parseInt(id || '0') });
       console.log("Received anime data:", response);
-      return response.Media;
+      return response;
     }
   });
 
@@ -45,6 +46,17 @@ const Anime = () => {
       <div className="min-h-screen texture-bg">
         <Navbar />
         <div className="pt-24 px-6 text-center text-gray-400">Loading...</div>
+      </div>
+    );
+  }
+
+  const anime = data?.Media;
+
+  if (!anime) {
+    return (
+      <div className="min-h-screen texture-bg">
+        <Navbar />
+        <div className="pt-24 px-6 text-center text-gray-400">Anime not found</div>
       </div>
     );
   }
@@ -64,24 +76,24 @@ const Anime = () => {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-2xl">
                 <img 
-                  src={anime?.coverImage.extraLarge}
-                  alt={anime?.title.english || anime?.title.romaji}
+                  src={anime.coverImage.extraLarge}
+                  alt={anime.title.english || anime.title.romaji || 'Anime'}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
 
               <div className="space-y-4">
-                <h1 className="text-4xl font-bold">{anime?.title.english || anime?.title.romaji}</h1>
+                <h1 className="text-4xl font-bold">{anime.title.english || anime.title.romaji}</h1>
                 <div className="flex items-center gap-2 text-orange-500">
                   <Star className="w-5 h-5 fill-current" />
-                  <span className="text-lg">{(anime?.averageScore / 10).toFixed(1)}</span>
+                  <span className="text-lg">{(anime.averageScore / 10).toFixed(1)}</span>
                 </div>
                 <p className="text-gray-400 text-lg leading-relaxed" 
-                   dangerouslySetInnerHTML={{ __html: anime?.description || '' }} />
+                   dangerouslySetInnerHTML={{ __html: anime.description || '' }} />
                 
                 <div className="flex flex-wrap gap-2">
-                  {anime?.genres.map((genre: string) => (
+                  {anime.genres.map((genre: string) => (
                     <span key={genre} className="px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 text-sm">
                       {genre}
                     </span>
@@ -99,7 +111,7 @@ const Anime = () => {
             </div>
 
             {/* Banner Image Section */}
-            {anime?.bannerImage && (
+            {anime.bannerImage && (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold">Preview</h2>
                 <motion.div
