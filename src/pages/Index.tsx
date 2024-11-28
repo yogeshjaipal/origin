@@ -37,9 +37,7 @@ const Index = () => {
     queryKey: ['trending-anime'],
     queryFn: async () => {
       console.log("Fetching trending anime data");
-      const response = await request('https://graphql.anilist.co', TRENDING_ANIME_QUERY);
-      console.log("Received anime data:", response);
-      return response;
+      return request('https://graphql.anilist.co', TRENDING_ANIME_QUERY);
     }
   });
 

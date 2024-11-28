@@ -35,9 +35,7 @@ const Anime = () => {
     queryKey: ['anime', id],
     queryFn: async () => {
       console.log("Fetching anime data for ID:", id);
-      const response = await request('https://graphql.anilist.co', ANIME_QUERY, { id: parseInt(id || '0') });
-      console.log("Received anime data:", response);
-      return response;
+      return request('https://graphql.anilist.co', ANIME_QUERY, { id: parseInt(id || '0') });
     }
   });
 
