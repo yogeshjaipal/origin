@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#0F0F0F] text-white overflow-x-hidden;
+    @apply bg-gradient-to-br from-gray-900 to-black text-white overflow-x-hidden;
     font-family: 'Outfit', sans-serif;
   }
 }
@@ -14,7 +14,7 @@
 }
 
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-500 via-orange-400 to-yellow-500;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-orange-600;
 }
 
 .anime-card {

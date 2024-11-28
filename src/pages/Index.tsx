@@ -2,13 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Play, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import { Link } from "react-router-dom";
 
 const Index = () => {
-  const [isHovered, setIsHovered] = useState(false);
-
   const animeList = [
     { id: 1, title: "Demon Slayer", rating: "9.2", image: "photo-1518770660439-4636190af475" },
     { id: 2, title: "One Piece", rating: "9.5", image: "photo-1487058792275-0ad4aaf24ca7" },
@@ -16,7 +13,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen texture-bg">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black texture-bg">
       <Navbar />
       
       {/* Hero Section */}
@@ -33,15 +30,15 @@ const Index = () => {
               animate={{ x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="text-5xl font-bold leading-tight">
-                Discover Amazing <span className="gradient-text">Anime</span> Series
+              <h2 className="text-5xl font-bold leading-tight text-white">
+                Welcome to <span className="text-orange-500">Origin</span>
               </h2>
-              <p className="text-gray-400 text-lg">
+              <p className="text-gray-300 text-lg">
                 Stream your favorite anime in HD quality with no interruptions.
               </p>
               <Link to="/search">
                 <Button 
-                  className="bg-orange-500 hover:bg-orange-600"
+                  className="bg-orange-500 hover:bg-orange-600 text-white"
                 >
                   <Play className="mr-2" /> Start Watching
                 </Button>
@@ -72,12 +69,12 @@ const Index = () => {
       {/* Trending Anime Grid */}
       <section className="px-6 py-20">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8">Trending Now</h2>
+          <h2 className="text-3xl font-bold mb-8 text-white">Trending Now</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {animeList.map((anime) => (
               <Link key={anime.id} to={`/anime/${anime.id}`}>
                 <motion.div
-                  className="anime-card glass-card"
+                  className="relative overflow-hidden rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
                   whileHover={{ y: -10 }}
                 >
                   <img
@@ -85,8 +82,8 @@ const Index = () => {
                     alt={anime.title}
                     className="w-full aspect-video object-cover"
                   />
-                  <div className="absolute bottom-0 w-full p-4 z-10">
-                    <h3 className="text-xl font-bold">{anime.title}</h3>
+                  <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">
+                    <h3 className="text-xl font-bold text-white">{anime.title}</h3>
                     <div className="flex items-center gap-2 text-orange-500">
                       <Star className="w-4 h-4 fill-current" />
                       <span>{anime.rating}</span>
