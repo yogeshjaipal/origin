@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Sword, Flame, Play, Star } from "lucide-react";
+import { Play, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
+import Navbar from "@/components/Navbar";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -15,27 +17,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen texture-bg">
-      {/* Header */}
-      <motion.header 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="fixed top-0 w-full z-50 px-6 py-4 bg-black/30 backdrop-blur-lg"
-      >
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="flex items-center gap-2">
-            <Sword className="w-8 h-8 text-orange-500" />
-            <h1 className="text-2xl font-bold gradient-text">Katanaime</h1>
-          </div>
-          <Button 
-            variant="outline"
-            className="glass-card"
-            onClick={() => toast({ title: "Coming soon!" })}
-          >
-            <Flame className="mr-2 text-orange-500" /> Trending
-          </Button>
-        </div>
-      </motion.header>
-
+      <Navbar />
+      
       {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -56,12 +39,13 @@ const Index = () => {
               <p className="text-gray-400 text-lg">
                 Stream your favorite anime in HD quality with no interruptions.
               </p>
-              <Button 
-                className="bg-orange-500 hover:bg-orange-600"
-                onClick={() => toast({ title: "Starting your journey!" })}
-              >
-                <Play className="mr-2" /> Start Watching
-              </Button>
+              <Link to="/search">
+                <Button 
+                  className="bg-orange-500 hover:bg-orange-600"
+                >
+                  <Play className="mr-2" /> Start Watching
+                </Button>
+              </Link>
             </motion.div>
             <motion.div 
               className="flex-1"
@@ -91,24 +75,25 @@ const Index = () => {
           <h2 className="text-3xl font-bold mb-8">Trending Now</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {animeList.map((anime) => (
-              <motion.div
-                key={anime.id}
-                className="anime-card glass-card"
-                whileHover={{ y: -10 }}
-              >
-                <img
-                  src={`https://source.unsplash.com/${anime.image}`}
-                  alt={anime.title}
-                  className="w-full aspect-video object-cover"
-                />
-                <div className="absolute bottom-0 w-full p-4 z-10">
-                  <h3 className="text-xl font-bold">{anime.title}</h3>
-                  <div className="flex items-center gap-2 text-orange-500">
-                    <Star className="w-4 h-4 fill-current" />
-                    <span>{anime.rating}</span>
+              <Link key={anime.id} to={`/anime/${anime.id}`}>
+                <motion.div
+                  className="anime-card glass-card"
+                  whileHover={{ y: -10 }}
+                >
+                  <img
+                    src={`https://source.unsplash.com/${anime.image}`}
+                    alt={anime.title}
+                    className="w-full aspect-video object-cover"
+                  />
+                  <div className="absolute bottom-0 w-full p-4 z-10">
+                    <h3 className="text-xl font-bold">{anime.title}</h3>
+                    <div className="flex items-center gap-2 text-orange-500">
+                      <Star className="w-4 h-4 fill-current" />
+                      <span>{anime.rating}</span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>
