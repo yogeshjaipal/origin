@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Bitcoin, Cube, Github, Twitter } from "lucide-react";
+import { Bitcoin, Cuboid, Github, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 
@@ -26,7 +26,7 @@ const Index = () => {
           transition={{ duration: 2, repeat: Infinity }}
           className="mb-8"
         >
-          <Cube size={64} className="mx-auto text-primary" />
+          <Cuboid size={64} className="mx-auto text-primary" />
         </motion.div>
         <h1 className="text-4xl font-bold mb-4 gradient-text">
           Creative Designer
