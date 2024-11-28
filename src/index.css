@@ -4,15 +4,45 @@
 
 @layer base {
   body {
-    @apply bg-[#1A1F2C] text-white;
-    font-family: 'Inter', sans-serif;
+    @apply bg-[#0F0F0F] text-white overflow-x-hidden;
+    font-family: 'Outfit', sans-serif;
   }
 }
 
 .glass-card {
-  @apply backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl;
+  @apply backdrop-blur-lg bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300;
 }
 
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-500 via-orange-400 to-yellow-500;
+}
+
+.anime-card {
+  @apply relative overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105;
+}
+
+.anime-card::after {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-300;
+}
+
+.anime-card:hover::after {
+  @apply opacity-100;
+}
+
+.texture-bg {
+  background-image: radial-gradient(circle at center, rgba(255, 107, 0, 0.1) 0%, transparent 70%),
+                    linear-gradient(45deg, rgba(255, 107, 0, 0.05) 25%, transparent 25%),
+                    linear-gradient(-45deg, rgba(255, 107, 0, 0.05) 25%, transparent 25%);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  animation: texture-move 20s linear infinite;
+}
+
+@keyframes texture-move {
+  0% {
+    background-position: 0% 0%, 0 0, 0 0;
+  }
+  100% {
+    background-position: 100% 100%, 40px 40px, -40px -40px;
+  }
 }

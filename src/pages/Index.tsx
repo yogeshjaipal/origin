@@ -1,88 +1,116 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Bitcoin, Cuboid, Github, Twitter } from "lucide-react";
+import { Sword, Flame, Play, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const projects = [
-    { id: 1, title: "Crypto Dashboard", description: "Web3 UI/UX Design", image: "photo-1518770660439-4636190af475" },
-    { id: 2, title: "NFT Collection", description: "Digital Art Series", image: "photo-1487058792275-0ad4aaf24ca7" },
-    { id: 3, title: "3D Animation", description: "Motion Design", image: "photo-1485827404703-89b55fcc595e" },
+  const animeList = [
+    { id: 1, title: "Demon Slayer", rating: "9.2", image: "photo-1518770660439-4636190af475" },
+    { id: 2, title: "One Piece", rating: "9.5", image: "photo-1487058792275-0ad4aaf24ca7" },
+    { id: 3, title: "Attack on Titan", rating: "9.8", image: "photo-1485827404703-89b55fcc595e" },
   ];
 
   return (
-    <div className="min-h-screen px-4 py-8">
-      {/* Hero Section */}
-      <motion.section 
-        initial={{ opacity: 0, y: 20 }}
+    <div className="min-h-screen texture-bg">
+      {/* Header */}
+      <motion.header 
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-20"
+        className="fixed top-0 w-full z-50 px-6 py-4 bg-black/30 backdrop-blur-lg"
       >
-        <motion.div 
-          animate={{ y: [0, -20, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="mb-8"
-        >
-          <Cuboid size={64} className="mx-auto text-primary" />
-        </motion.div>
-        <h1 className="text-4xl font-bold mb-4 gradient-text">
-          Creative Designer
-        </h1>
-        <p className="text-lg text-gray-400 mb-8">
-          Bridging Web3 & Creative Design
-        </p>
-        <div className="flex justify-center gap-4">
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center gap-2">
+            <Sword className="w-8 h-8 text-orange-500" />
+            <h1 className="text-2xl font-bold gradient-text">Katanaime</h1>
+          </div>
           <Button 
             variant="outline"
             className="glass-card"
-            onClick={() => toast({ title: "Thanks for connecting!" })}
+            onClick={() => toast({ title: "Coming soon!" })}
           >
-            <Bitcoin className="mr-2" /> Connect Wallet
+            <Flame className="mr-2 text-orange-500" /> Trending
           </Button>
+        </div>
+      </motion.header>
+
+      {/* Hero Section */}
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="pt-24 px-6"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <motion.div 
+              className="flex-1 space-y-6"
+              initial={{ x: -50 }}
+              animate={{ x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <h2 className="text-5xl font-bold leading-tight">
+                Discover Amazing <span className="gradient-text">Anime</span> Series
+              </h2>
+              <p className="text-gray-400 text-lg">
+                Stream your favorite anime in HD quality with no interruptions.
+              </p>
+              <Button 
+                className="bg-orange-500 hover:bg-orange-600"
+                onClick={() => toast({ title: "Starting your journey!" })}
+              >
+                <Play className="mr-2" /> Start Watching
+              </Button>
+            </motion.div>
+            <motion.div 
+              className="flex-1"
+              animate={{ 
+                rotateY: [0, 10, 0],
+                rotateZ: [0, 5, 0]
+              }}
+              transition={{ 
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <img 
+                src="https://source.unsplash.com/random/800x600/?anime"
+                alt="Anime Hero"
+                className="rounded-lg shadow-2xl shadow-orange-500/20"
+              />
+            </motion.div>
+          </div>
         </div>
       </motion.section>
 
-      {/* Projects Grid */}
-      <section className="mb-20">
-        <h2 className="text-2xl font-bold mb-8 gradient-text">Featured Works</h2>
-        <div className="grid grid-cols-1 gap-6">
-          {projects.map((project) => (
-            <motion.div
-              key={project.id}
-              className="glass-card p-4 cursor-pointer"
-              whileHover={{ scale: 1.02 }}
-              onHoverStart={() => setIsHovered(true)}
-              onHoverEnd={() => setIsHovered(false)}
-            >
-              <img
-                src={`https://source.unsplash.com/${project.image}`}
-                alt={project.title}
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-              <p className="text-gray-400">{project.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="text-center">
-        <h2 className="text-2xl font-bold mb-8 gradient-text">Let's Connect</h2>
-        <div className="flex justify-center gap-4">
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" size="icon" className="glass-card">
-              <Twitter className="h-5 w-5" />
-            </Button>
-          </a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" size="icon" className="glass-card">
-              <Github className="h-5 w-5" />
-            </Button>
-          </a>
+      {/* Trending Anime Grid */}
+      <section className="px-6 py-20">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8">Trending Now</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {animeList.map((anime) => (
+              <motion.div
+                key={anime.id}
+                className="anime-card glass-card"
+                whileHover={{ y: -10 }}
+              >
+                <img
+                  src={`https://source.unsplash.com/${anime.image}`}
+                  alt={anime.title}
+                  className="w-full aspect-video object-cover"
+                />
+                <div className="absolute bottom-0 w-full p-4 z-10">
+                  <h3 className="text-xl font-bold">{anime.title}</h3>
+                  <div className="flex items-center gap-2 text-orange-500">
+                    <Star className="w-4 h-4 fill-current" />
+                    <span>{anime.rating}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
